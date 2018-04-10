@@ -1,0 +1,13 @@
+dependencies: \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/third-party/glog-0.3.4/src/logging.cc \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/utilities.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/base/mutex.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/third-party/glog-0.3.4/src/config.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/config.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/glog/logging.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/glog/log_severity.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/glog/vlog_is_on.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/base/commandlineflags.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/glog/raw_logging.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/base/googleinit.h \
+  /Users/bfmcgo2/Portfolio/CameraApp/node_modules/react-native/React/../third-party/glog-0.3.4/src/stacktrace.h
