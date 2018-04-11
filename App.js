@@ -33,7 +33,11 @@ export default class App extends React.Component {
       },
       itemDataSource: ds,
       modalVisible: false,
-      filming: false
+      filming: false,
+      userChunk : {
+        date: null,
+        vidURL: null
+      }
     };
 
 
@@ -41,15 +45,17 @@ export default class App extends React.Component {
     this.renderRow = this.renderRow.bind(this);
     this.getLocationHandler= this.getLocationHandler.bind(this)
     this.stopLocationHandler = this.stopLocationHandler.bind(this)
+    this.getItems = this.getItems.bind(this)
   }
 
   watchID: ?number = null  
 
   componentDidMount() {
-    this.getItems(this.itemsRef);
+    // this.getItems(this.itemsRef);
 
-    
-
+  }
+  componentWillUpdate(nextProps, nextState) {
+    console.log(nextState.userChunk);
   }
 
   componentWillUnmount() {
@@ -72,10 +78,12 @@ export default class App extends React.Component {
     )
   }
 
-  getLocationHandler = () => {
+  getLocationHandler = (ref) => {
     this.watchID = navigator.geolocation.watchPosition(pos=> {
           let lat = parseFloat(pos.coords.latitude);
           let lng = parseFloat(pos.coords.longitude);
+          let coordinatesArray = [];
+          
 
           let coordinates = {
             coordinates:{
@@ -85,10 +93,11 @@ export default class App extends React.Component {
             
           }
           this.setState({
-            initialPosition: coordinates  
+            initialPosition: coordinatesArray  
           })
+          coordinatesArray.push(coordinates)
+          // ref.push(coordinates);
 
-          this.itemsRef.push(coordinates);
         },
         err=>{
           console.log(err);
@@ -101,7 +110,15 @@ export default class App extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  getItems(ref) {
+  getVidURL = (url) => {
+    this.setState({
+      userChunk: {
+        vidURL: url
+      }
+    })
+  }
+
+  getItems=(ref) => {
 
     ref.on('value', (snap) => {
       // console.log(snap)
@@ -122,9 +139,12 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Camera firebaseRef={firebaseApp.storage()}
-          getLocationHandler = {this.getLocationHandler()}
-          stopLocationHandler = {this.stopLocationHandler()}></Camera>
+        <Camera storageRef={firebaseApp.storage()}
+          getLocationHandler = {this.getLocationHandler}
+          stopLocationHandler = {this.stopLocationHandler}
+          getVidURL = {this.getVidURL}
+          dataRef = {firebaseApp.database()}
+          coordinates = {this.state.initialPosition}></Camera>
       </View>
     );
   }

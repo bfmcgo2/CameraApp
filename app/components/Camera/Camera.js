@@ -17,20 +17,20 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
 
-
 export default class BadInstagramCloneApp extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
       recording : false,
-      video: null
+      video: null,
+      date: Date.now()
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    console.log(nextState.recording, nextState.video)
-  }
+  // componentWillUpdate(nextProps, nextState) {
+  //   console.log(nextState.recording, nextState.video)
+  // }
 
   componentDidMount() {
     console.log(this.props.firebaseRef)
@@ -43,7 +43,9 @@ export default class BadInstagramCloneApp extends Component {
       const uploadUri = Platform.OS === 'ios' ? data.replace('file://', '') : data
       let uploadBlob = null
       let filename = Date.now().toString();
-      const videoRef = this.props.firebaseRef.ref('videos').child('video/' + filename +'.mp4');
+      const videoRef = this.props.storageRef.ref('videos').child('video/' + filename +'.mp4');
+      const dataRef = this.props.dataRef.ref('user').child('location/'+this.state.date);
+      this.props.getLocationHandler(dataRef);
       let metadata = {
         contentType: 'video/mp4'
       }
@@ -64,7 +66,12 @@ export default class BadInstagramCloneApp extends Component {
           return videoRef.getDownloadURL()
         })
         .then((url) => {
-          console.log(url)
+          this.props.getVidURL(url);
+          dataRef.set({
+            date: this.state.date,
+            url: url,
+            coordinates: this.props.coordinates
+          })
           resolve(url)
         })
         .catch((error) => {
@@ -93,9 +100,10 @@ export default class BadInstagramCloneApp extends Component {
         <TouchableOpacity
             onPress={()=>{
               if(!this.state.recording) {
-                this.recordVideo()
+                this.recordVideo();
               }else {
                 this.stopRecord()
+                this.props.stopLocationHandler();
               }
             }}
             style = {styles.capture}
